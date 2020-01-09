@@ -1,0 +1,51 @@
+extends layout.pug
+
+block content
+  div(class="row my-5")
+    input(type="hidden" value=data.main.temp id="temperature")
+  div(class="row")
+    div(Class="col-1")
+    div(class="col-8 rounded" id="backgroundWeather")
+      div(class="card my-5 transparent")
+        ul(class="list-group list-group-flush")
+          li(class="list-group-item")
+            h1(class="card-title display-2 my-5")=data.name
+          li(class="list-group-item")
+            div(class="row align-items-center justify-content-center")
+              div(class="col-3")
+                img(class="" src="http://openweathermap.org/img/wn/"+data.weather[0].icon +"@2x.png" style="width: 6rem")
+              div(class="col-5")
+                h1(class="card-text") Temperatur
+              div(Class="col-3")
+                h1(class="card-text")=data.main.temp + "°C"
+          li(class="list-group-item")
+            div(class="row align-items-center justify-content-center")
+              div(class="col-2")
+                img(src="/images/weather_icons/temp_low.png" style="width: 6rem")
+              div(class="col-4")
+                h1(class="card-text")=data.main.temp_min + "°C"
+              div(class="col-2" style="border-left:1px solid black") 
+                img(src="/images/weather_icons/temp_high.png" style="width: 6rem")
+              div(class="col-4")
+                h1(class="card-text d-inline")=data.main.temp_max + "°C"
+          li(class="list-group-item")
+            div(class="row align-items-center justify-content-center")
+              div(class="col-2")
+                img(src="/images/weather_icons/sunrise.png" style="width: 6rem")
+              div(class="col-4")
+                h1(class="card-text")=data.sunrise + " Uhr"
+              div(class="col-2" style="border-left:1px solid black") 
+                img(src="/images/weather_icons/sunset.png" style="width: 6rem")
+              div(class="col-4")
+                h1(class="card-text d-inline")=data.sunset + " Uhr"
+          li(class="list-group-item")
+            div(class="row align-items-center justify-content-center")
+              div(class="col-3")
+                img(src="/images/weather_icons/humidity.png" style="width: 6rem")
+              div(class="col-5")
+                h1(class="card-text") Humidity
+              div(class="col-3")
+                h1(class="card-text")=data.main.humidity + "%"
+
+block script
+  script(src="/js/results.js")
