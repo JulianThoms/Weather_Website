@@ -1,5 +1,4 @@
-console.log("Outside... ")
-document.body.onload = function(){
+(function(){
   var d = new Date();
   var n = d.getMonth() + 1;
   console.log("Doing this again... "+n)
@@ -28,4 +27,4 @@ document.body.onload = function(){
     default:
       console.log("Error loading background: Month OOB?: " + n);
   }
-}
+})();
