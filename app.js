@@ -1,5 +1,4 @@
-/*jshint esversion: 6 */
-/* jshint node: true */
+"use strict";
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -47,13 +46,13 @@ app.get("/changeUnitFahrenheit", function(req, res) {
   req.session.unit = "&units=imperial";
   req.session.render = 2;
   res.redirect(req.headers.referer);
-})
+});
 
 app.get("/changeUnitKelvin", function(req, res) {
   req.session.unit = "";
   req.session.render = 3;
   res.redirect(req.headers.referer);
-})
+});
 
 app.get("/search/:location", function(req, res) {
 
@@ -84,13 +83,13 @@ app.get("/search/:location", function(req, res) {
       res.render("searchResults", {
         data,
         unit: req.session.render
-      })
+      });
     })
     .catch((reject) => {
       console.log(reject);
       res.render("index", {
         error: "Sorry, no such City was found!"
-      })
+      });
     });
 });
 
@@ -122,15 +121,15 @@ app.post("/search/:location", urlencodedParser, function(req, res) {
       res.render("searchResults", {
         data,
         unit: req.session.render
-      })
+      });
     })
     .catch((reject) => {
       console.log(reject);
       res.render("index", {
         error: "Sorry, no such City was found!"
-      })
+      });
     });
-})
+});
 
 
 
