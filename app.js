@@ -49,34 +49,104 @@ app.get("/", function(req, res) {
   res.render("index");
 });
 
-app.post("/weather", urlencodedParser, function(req, res){
+app.get("/changeUnitCelsius", function(req, res) {
+  console.log(req.headers.referer);
+  req.session.unit = "&units=metric";
+  req.session.render = 1;
+  res.redirect(req.headers.referer);
+});
 
-  fetch('http://api.openweathermap.org/data/2.5/weather?q='+req.body.searchTerm+'&units=metric&APPID=3a8bc35ffd38047c3426323bc05d54e6')
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-    if(data.cod === '404'){
-      console.log("Sorry, not found!")
-    }
-    else{
-      let dateObj = new Date(( data.sys.sunrise + data.timezone )  * 1000);
+app.get("/changeUnitFahrenheit", function(req, res) {
+  req.session.unit = "&units=imperial";
+  req.session.render = 2;
+  res.redirect(req.headers.referer);
+})
+
+app.get("/changeUnitKelvin", function(req, res) {
+  req.session.unit = "";
+  req.session.render = 3;
+  res.redirect(req.headers.referer);
+})
+
+app.get("/search/:location", function(req, res) {
+
+  if (req.session.unit == undefined) {
+    req.session.unit = "&units=metric";
+    req.session.render = 1;
+  }
+  fetch('http://api.openweathermap.org/data/2.5/weather?q=' + req.params.location + '' + req.session.unit + '&APPID=3a8bc35ffd38047c3426323bc05d54e6')
+    .then((response) => {
+      if (response.cos === '404') {
+        reject();
+      }
+      return response.json();
+    })
+    .then((data) => {
+      let dateObj = new Date((data.sys.sunrise + data.timezone) * 1000);
       let utcString = dateObj.toUTCString();
       data.sunrise = utcString.slice(-12, -7);
 
-      let dateObj2 = new Date(( data.sys.sunset + data.timezone )  * 1000);
+      let dateObj2 = new Date((data.sys.sunset + data.timezone) * 1000);
       let utcString2 = dateObj2.toUTCString();
       data.sunset = utcString2.slice(-12, -7);
-
+      console.log(data);
       data.main.temp = Math.round(data.main.temp);
       data.main.temp_min = Math.round(data.main.temp_min);
       data.main.temp_max = Math.round(data.main.temp_max);
-      
+
       res.render("searchResults", {
-        data
+        data,
+        unit: req.session.render
       })
-    }
-  });
+    })
+    .catch((reject) => {
+      console.log(reject);
+      res.render("index", {
+        error: "Sorry, no such City was found!"
+      })
+    });
+});
+
+app.post("/search/:location", urlencodedParser, function(req, res) {
+  if (req.session.unit == undefined) {
+    req.session.unit = "&units=metric";
+    req.session.render = 1;
+  }
+  fetch('http://api.openweathermap.org/data/2.5/weather?q=' + req.params.location + '' + req.session.unit + '&APPID=3a8bc35ffd38047c3426323bc05d54e6')
+    .then((response) => {
+      if (response.cos === '404') {
+        reject();
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data.cod === '404') {
+        console.log("Sorry, not found!")
+      } else {
+        let dateObj = new Date((data.sys.sunrise + data.timezone) * 1000);
+        let utcString = dateObj.toUTCString();
+        data.sunrise = utcString.slice(-12, -7);
+
+        let dateObj2 = new Date((data.sys.sunset + data.timezone) * 1000);
+        let utcString2 = dateObj2.toUTCString();
+        data.sunset = utcString2.slice(-12, -7);
+        console.log(data);
+        data.main.temp = Math.round(data.main.temp);
+        data.main.temp_min = Math.round(data.main.temp_min);
+        data.main.temp_max = Math.round(data.main.temp_max);
+
+        res.render("searchResults", {
+          data,
+          unit: req.session.render
+        })
+      }
+    })
+    .catch((reject) => {
+      console.log(reject);
+      res.render("index", {
+        error: "Sorry, no such City was found!"
+      })
+    });
 })
 
 

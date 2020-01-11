@@ -4,7 +4,9 @@ block content
   div(class="row alignMiddle")
     div(class="col-1")
     div(class="col-8")
-      form(class="form-inline active-cyan-3 active-cyan-4 justify-content-center" action="weather" method="POST")
+      if error != undefined
+        h1=error
+      form(class="form-inline active-cyan-3 active-cyan-4 justify-content-center" id="searchForm" onsubmit="submitSearch()" method="POST")
         i(class="fas fa-search shadow")
-        input(class="shadow-lg form-control form-control-sm ml-3 w-75 btn-lg" type="text" name="searchTerm" placeholder="Search" required)
-        input(type="image" src="images/search-img.png" id="search-btn" class="mx-1" style="width:4%")
+        input(class="shadow-lg form-control form-control-sm ml-3 w-75 btn-lg" id="searchInput" type="search" placeholder="Search" required)
+        input(type="image" src="/images/search-img.png" id="search-btn" class="mx-1" style="width:4%")

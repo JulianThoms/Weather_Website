@@ -3,6 +3,7 @@ extends layout.pug
 block content
   div(class="row my-5")
     input(type="hidden" value=data.main.temp id="temperature")
+    input(type="hidden" value=unit id="unit")
   div(class="row")
     div(Class="col-1")
     div(class="col-8 rounded" id="backgroundWeather")
@@ -17,17 +18,32 @@ block content
               div(class="col-5")
                 h1(class="card-text") Temperatur
               div(Class="col-3")
-                h1(class="card-text")=data.main.temp + "°C"
+                if unit == 1
+                  h1(class="card-text")=data.main.temp + " °C"
+                if unit == 2
+                  h1(class="card-text")=data.main.temp + " °F"
+                if unit == 3
+                  h1(class="card-text")=data.main.temp + " K"
           li(class="list-group-item")
             div(class="row align-items-center justify-content-center")
               div(class="col-2")
                 img(src="/images/weather_icons/temp_low.png" style="width: 6rem")
               div(class="col-4")
-                h1(class="card-text")=data.main.temp_min + "°C"
+                if unit == 1
+                  h1(class="card-text")=data.main.temp_min + " °C"
+                if unit == 2
+                  h1(class="card-text")=data.main.temp_min + " °F"
+                if unit == 3
+                  h1(class="card-text")=data.main.temp_min + " K"
               div(class="col-2" style="border-left:1px solid black") 
                 img(src="/images/weather_icons/temp_high.png" style="width: 6rem")
               div(class="col-4")
-                h1(class="card-text d-inline")=data.main.temp_max + "°C"
+                if unit == 1
+                  h1(class="card-text")=data.main.temp_max + " °C"
+                if unit == 2
+                  h1(class="card-text")=data.main.temp_max + " °F"
+                if unit == 3
+                  h1(class="card-text")=data.main.temp_max + " K"
           li(class="list-group-item")
             div(class="row align-items-center justify-content-center")
               div(class="col-2")
