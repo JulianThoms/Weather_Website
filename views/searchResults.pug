@@ -6,7 +6,7 @@ block content
     input(type="hidden" value=unit id="unit")
   div(class="row" style="min-width: 950px")
     div(Class="col-1")
-    div(class="col-8 rounded" id="backgroundWeather")
+    div(class="col-9 rounded" id="backgroundWeather")
       div(class="card my-4 transparent")
         ul(class="list-group list-group-flush")
           li(class="list-group-item")
@@ -58,8 +58,8 @@ block content
             div(class="row align-items-center justify-content-center")
               div(class="col-3")
                 img(src="/images/weather_icons/humidity.png" style="width: 6rem")
-              div(class="col-5")
-                h1(class="card-text") Humidity
+              div(class="col-6")
+                h1(class="card-text") Luftfeuchtigkeit
               div(class="col-3")
                 h1(class="card-text")=data.main.humidity + "%"
 
